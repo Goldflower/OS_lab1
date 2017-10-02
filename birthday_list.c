@@ -22,17 +22,17 @@ int birthday_list_init(void)
 	int i = 0;
 	for(i = 0; i < num_elements; i++) {
 		date = kmalloc(sizeof(*date), GFP_KERNEL); // 最多128KB, GFP_KERNEL:process contex, can sleep
-		printk(KERN_INFO "Add element %d \n", i+1);
-		date->day = 6*i;
-		date->month = i+1;
-		date->year = 2000 + i;
+		printk(KERN_INFO "Add element %d\n", i + 1);
+		date -> day = 6 * i;
+		date -> month = i + 1;
+		date -> year = 2000 + i;
 		
-		INIT_LIST_HEAD(&date->list); // 初始化node
-		list_add_tail(&date->list, &birthday_list); // 加入list
+		INIT_LIST_HEAD(&date -> list); // 初始化node
+		list_add_tail(&date -> list, &birthday_list); // 加入list
 	}
 	
 	list_for_each_entry(date, &birthday_list, list) {
-		printk(KERN_INFO "Birth: %d/%d/%d\n", date->year, date->month, date->day);
+		printk(KERN_INFO "Birth: %d/%d/%d\n", date -> year, date -> month, date -> day);
 	}
 
 	return 0;
@@ -51,7 +51,7 @@ void birthday_list_exit(void)
 	 * @member:    the name of the list_struct within the struct.
 	 */
 	list_for_each_entry_safe(date, next, &birthday_list, list) {
-		list_del(&date->list);
+		list_del(&date -> list);
 		printk(KERN_INFO "Delete element %d\n", j++);
 		kfree(date);
 	}

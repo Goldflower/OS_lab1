@@ -4,7 +4,7 @@
 #include <linux/module.h> // all module needed
 #include <linux/slab.h> // kmalloc defined here
 
-// struct list_head birthday_list = { &(birthday_list), &(birthday_list) }; 即建立空list
+// struct list_head birthday_list = { &(birthday_list), &(birthday_list) }; i.e. create empty list
 static LIST_HEAD(birthday_list);
 
 struct birthday {
@@ -21,14 +21,14 @@ int birthday_list_init(void)
 	int num_elements = 5;
 	int i = 0;
 	for(i = 0; i < num_elements; i++) {
-		date = kmalloc(sizeof(*date), GFP_KERNEL); // 最多128KB, GFP_KERNEL:process contex, can sleep
+		date = kmalloc(sizeof(*date), GFP_KERNEL); // most 128KB, GFP_KERNEL:process contex, can sleep
 		printk(KERN_INFO "Add element %d\n", i + 1);
 		date -> day = 6 * i;
 		date -> month = i + 1;
 		date -> year = 2000 + i;
 		
-		INIT_LIST_HEAD(&date -> list); // 初始化node
-		list_add_tail(&date -> list, &birthday_list); // 加入list
+		INIT_LIST_HEAD(&date -> list); // initialize node
+		list_add_tail(&date -> list, &birthday_list); // add node into list
 	}
 	
 	list_for_each_entry(date, &birthday_list, list) {
